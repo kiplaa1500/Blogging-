@@ -21,11 +21,15 @@ class Config:
 
 
 
+# class ProdConfig(Config):
+#     """Production configuration class that inherits from the main configurations class"""
+#     SQLALCHEMY_DATABASE_URI='postgresql+psycopg2://moringa:kiplangat18@localhost/pitches'# os.environ.get("DATABASE_URL")
+#     #SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 class ProdConfig(Config):
-    """Production configuration class that inherits from the main configurations class"""
-    SQLALCHEMY_DATABASE_URI='postgresql+psycopg2://moringa:kiplangat18@localhost/pitches'# os.environ.get("DATABASE_URL")
-    #SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
-
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "")
+    if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
+            "postgres://", "postgresql://", 1)
 
 class DevConfig(Config):
     """Configuration class for development stage of the app"""
